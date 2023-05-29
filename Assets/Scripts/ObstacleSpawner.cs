@@ -5,20 +5,33 @@ using UnityEngine;
 public class ObstacleSpawner : MonoBehaviour
 {
     public GameObject Obstacle;
+    
+    private float _timer;
+    public float maxTime;
+    
+    public float maxY;
+    public float minY;
+    float _randomY;
 
     void Start()
     {
-        InstantiateObstacle(); //Oyun baþladýpý andan itiberen verieln nesne üretilmeye baþlanacak.
+        //InstantiateObstacle(); //Oyun baþladýpý andan itiberen verieln nesne üretilmeye baþlanacak.
     }
     void Update()
     {
-
+        _timer += Time.deltaTime;
+        if (_timer >= maxTime) 
+        {
+            InstantiateObstacle();
+            _timer= 0;
+        }
     }
 
     //Bir obje üretecek
     public void InstantiateObstacle()
     {
+        _randomY = Random.Range(minY, maxY); //y ekseninde random konumlarda oluþmasý için.
         GameObject newObstacle = Instantiate(Obstacle); //Instantiate methodu nesne üretme iþlemi yapar.
-        newObstacle.transform.position = new Vector2(transform.position.x, transform.position.y);
+        newObstacle.transform.position = new Vector2(transform.position.x, _randomY);
     }
 }

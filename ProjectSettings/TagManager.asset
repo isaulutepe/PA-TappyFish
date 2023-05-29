@@ -53,3 +53,6 @@ TagManager:
   - name: ForeGround
     uniqueID: 3741051793
     locked: 0
+  - name: Canvas
+    uniqueID: 1486001455
+    locked: 0

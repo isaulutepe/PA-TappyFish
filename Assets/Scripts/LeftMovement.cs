@@ -32,6 +32,13 @@ public class LeftMovement : MonoBehaviour
                 transform.position = new Vector2(transform.position.x + 2 * groundWidth, transform.position.y);
             }
         }
+        else if (gameObject.CompareTag("Obstacle"))
+        {
+            if (transform.position.x <GameManager.bottamLeft.x - obstacleWitdh)
+            {
+                Destroy(gameObject);
+            }
+        }
 
 
     }
