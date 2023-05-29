@@ -7,20 +7,32 @@ public class LeftMovement : MonoBehaviour
     [SerializeField] private float _speed;
     BoxCollider2D _box;
     float groundWidth;
+    float obstacleWitdh;
 
     void Start()
     {
-        _box = GetComponent<BoxCollider2D>();
-        groundWidth = _box.size.x;
+        if (gameObject.CompareTag("Ground"))
+        {
+            _box = GetComponent<BoxCollider2D>();
+            groundWidth = _box.size.x;
+        }
+        else if (gameObject.CompareTag("Obstacle"))
+        {
+            obstacleWitdh = GameObject.FindGameObjectWithTag("Column").GetComponent<BoxCollider2D>().size.x;
+        }
     }
     void Update()
     {
         transform.position = new Vector2(transform.position.x - _speed * Time.deltaTime, transform.position.y);
 
-
-        if (transform.position.x <= -groundWidth)
+        if (gameObject.CompareTag("Ground"))
         {
-            transform.position = new Vector2(transform.position.x + 2 * groundWidth, transform.position.y);
+            if (transform.position.x <= -groundWidth)
+            {
+                transform.position = new Vector2(transform.position.x + 2 * groundWidth, transform.position.y);
+            }
         }
+
+
     }
 }
