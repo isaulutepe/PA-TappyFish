@@ -15,7 +15,7 @@ public class ObstacleSpawner : MonoBehaviour
 
     void Start()
     {
-        //InstantiateObstacle(); //Oyun baþladýpý andan itiberen verieln nesne üretilmeye baþlanacak.
+        
     }
     void Update()
     {

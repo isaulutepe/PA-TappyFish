@@ -7,18 +7,20 @@ public class Fish : MonoBehaviour
 
     Rigidbody2D _rb;
     [SerializeField] private float _speed;
+
     //Balýgýn aþaðý yukarý rotasyonunun deðiþmesi için.
     int angle;
     int maxAngel = 20;
     int minAngle = -60;
+
     public Score score;
-    bool touchedGround;
 
     public GameManager manager;
     public Sprite fishDied;
     SpriteRenderer _sp;
-
     Animator _anim;
+
+    bool touchedGround;
 
     void Start()
     {
@@ -81,7 +83,6 @@ public class Fish : MonoBehaviour
         {
             if (GameManager.gameOver == false)
             {
-                //Game Over
                 manager.GameOver();
                 GameOver();
             }
