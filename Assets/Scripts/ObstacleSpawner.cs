@@ -5,10 +5,10 @@ using UnityEngine;
 public class ObstacleSpawner : MonoBehaviour
 {
     public GameObject Obstacle;
-    
+
     private float _timer;
     public float maxTime;
-    
+
     public float maxY;
     public float minY;
     float _randomY;
@@ -19,12 +19,15 @@ public class ObstacleSpawner : MonoBehaviour
     }
     void Update()
     {
-        _timer += Time.deltaTime;
-        if (_timer >= maxTime) 
+        if (GameManager.gameOver == false)
         {
-            InstantiateObstacle();
-            _timer= 0;
-        }
+            _timer += Time.deltaTime;
+            if (_timer >= maxTime)
+            {
+                InstantiateObstacle();
+                _timer = 0;
+            }
+        } 
     }
 
     //Bir obje üretecek

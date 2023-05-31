@@ -12,19 +12,40 @@ public class Fish : MonoBehaviour
     int maxAngel = 20;
     int minAngle = -60;
     public Score score;
+    bool touchedGround;
+
+    public GameManager manager;
+    public Sprite fishDied;
+    SpriteRenderer _sp;
+
+    Animator _anim;
+
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _sp = GetComponent<SpriteRenderer>();
+        _anim = GetComponent<Animator>();
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        FishSwim();
+    }
+    private void FixedUpdate()
+    {
+        FishRotation();
+    }
+    void FishSwim()
+    {
+        if (Input.GetMouseButtonDown(0) && GameManager.gameOver == false)
         {
+            _rb.velocity = Vector2.zero;
             _rb.velocity = new Vector2(_rb.velocity.x, _speed);
 
         }
-        //AÇI ÝÇÝN ÝÞLEMLER.
+    }
+    void FishRotation()
+    {
         if (_rb.velocity.y > 0)
         {
             if (angle <= maxAngel)
@@ -37,7 +58,11 @@ public class Fish : MonoBehaviour
                 angle -= 2;
             }
         }
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        if (touchedGround == false)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -45,5 +70,28 @@ public class Fish : MonoBehaviour
         {
             score.Scored();
         }
+        else if (collision.CompareTag("Column"))
+        {
+            //Game Over
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            if (GameManager.gameOver == false)
+            {
+                //Game Over
+                manager.GameOver();
+                GameOver();
+            }
+        }
+    }
+    void GameOver()
+    {
+        touchedGround = true;
+        _sp.sprite = fishDied;
+        _anim.enabled = false;
+        transform.rotation = Quaternion.Euler(0, 0, -90);
     }
 }
