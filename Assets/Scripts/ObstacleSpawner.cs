@@ -13,13 +13,9 @@ public class ObstacleSpawner : MonoBehaviour
     public float minY;
     float _randomY;
 
-    void Start()
-    {
-        
-    }
     void Update()
     {
-        if (GameManager.gameOver == false)
+        if (GameManager.gameOver == false && GameManager.gameStarted == true)
         {
             _timer += Time.deltaTime;
             if (_timer >= maxTime)
@@ -27,7 +23,7 @@ public class ObstacleSpawner : MonoBehaviour
                 InstantiateObstacle();
                 _timer = 0;
             }
-        } 
+        }
     }
 
     //Bir obje üretecek

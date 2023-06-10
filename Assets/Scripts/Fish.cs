@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Fish : MonoBehaviour
@@ -16,6 +17,7 @@ public class Fish : MonoBehaviour
     public Score score;
 
     public GameManager manager;
+    public ObstacleSpawner obstacleSpawner;
     public Sprite fishDied;
     SpriteRenderer _sp;
     Animator _anim;
@@ -25,6 +27,7 @@ public class Fish : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _rb.gravityScale = 0;
         _sp = GetComponent<SpriteRenderer>();
         _anim = GetComponent<Animator>();
     }
@@ -41,9 +44,19 @@ public class Fish : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && GameManager.gameOver == false)
         {
-            _rb.velocity = Vector2.zero;
-            _rb.velocity = new Vector2(_rb.velocity.x, _speed);
-
+            if (GameManager.gameStarted == false)
+            {
+                _rb.gravityScale = 5f;
+                _rb.velocity = Vector3.zero;
+                _rb.velocity = new Vector2(_rb.velocity.x, _speed);
+                obstacleSpawner.InstantiateObstacle();
+                manager.GameHasStarted();
+            }
+            else
+            {
+                _rb.velocity = Vector2.zero;
+                _rb.velocity = new Vector2(_rb.velocity.x, _speed);
+            }
         }
     }
     void FishRotation()
@@ -74,7 +87,7 @@ public class Fish : MonoBehaviour
         }
         else if (collision.CompareTag("Column"))
         {
-            //Game Over
+            manager.GameOver();
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
